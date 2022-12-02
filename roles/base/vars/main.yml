@@ -1,0 +1,12 @@
+---
+# vars file for roles/base
+openbsd_init_package_install:
+  - bash
+  - screen-4.9.0
+  - sshguard
+  - aide
+  - anacron
+  - htop
+  - nmap
+  - wget
+  - bzip2

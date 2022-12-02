@@ -1,0 +1,5 @@
+---
+- name: Install packages
+  community.general.openbsd_pkg:
+    name: "{{ item }}"
+  with_items: "{{ openbsd_init_package_install }}"
