@@ -1,0 +1,3 @@
+PS1='\h:\W \u\$ '
+shopt -s checkwinsize
+HISTTIMEFORMAT="[%Y-%m-%d %T]: "

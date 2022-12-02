@@ -2,6 +2,12 @@
 # tasks file for roles/base
 - name: Update system
   ansible.builtin.import_tasks: update.yml
+  tags: base_update
 
 - name: Install packages
   ansible.builtin.import_tasks: packages.yml
+  tags: base_packages
+
+- name: Set root shell
+  ansible.builtin.import_tasks: shell.yml
+  tags: base_shell

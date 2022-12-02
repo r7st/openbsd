@@ -1,0 +1,49 @@
+- name: Ensure bash is installed
+  community.general.openbsd_pkg:
+    name: bash
+    state: present
+
+- name: Check bash location
+  ansible.builtin.stat:
+    path: /usr/local/bin/bash
+  register: bash_loc
+
+- name: Confirm bash location
+  ansible.builtin.assert:
+    that:
+      - bash_loc.stat.exists == true
+
+- name: Set root shell to bash
+  ansible.builtin.command:
+    chsh -s /usr/local/bin/bash root
+  changed_when: false
+
+- name: Add root/skel profile
+  ansible.builtin.copy:
+    src: files/profile
+    dest: "{{ item }}"
+    owner: root
+    group: wheel
+    mode: 0644
+  loop:
+    - /root/.profile
+    - /etc/skel/.profile
+
+- name: Add /etc/bashrc
+  ansible.builtin.copy:
+    src: files/etc_bashrc
+    dest: /etc/bashrc
+    owner: root
+    group: wheel
+    mode: 0644
+
+- name: Add skel/root .bashrc
+  ansible.builtin.copy:
+    src: files/bashrc
+    dest: "{{ item }}"
+    owner: root
+    group: wheel
+    mode: 0644
+  loop:
+    - /root/.bashrc
+    - /etc/skel/.bashrc
