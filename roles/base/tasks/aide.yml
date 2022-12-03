@@ -1,0 +1,31 @@
+- name: Ensure aide is installed
+  community.general.openbsd_pkg:
+    name: aide
+    state: present
+
+- name: Configure aide
+  ansible.builtin.copy:
+    src: files/aide.conf
+    dest: /etc/aide.conf
+    owner: root
+    group: wheel
+    mode: 0600
+
+- name: Check for existing aide db
+  ansible.builtin.stat:
+    path: /var/db/aide.db
+  register: aide_db
+
+- name: Init aide
+  block:
+  - name: Initialize aide db
+    ansible.builtin.command:
+      cmd: aide --init
+    changed_when: false
+
+  - name: Move db
+    ansible.builtin.command:
+      cmd: mv /var/db/aide.db.new /var/db/aide.db
+    changed_when: false
+
+  when: not aide_db.stat.exists
