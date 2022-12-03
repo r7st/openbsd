@@ -1,0 +1,18 @@
+- name: Copy config script
+  ansible.builtin.template:
+    src: templates/genWGServer.sh.j2
+    dest: "{{ wireguard_basedir }}/genWGServer.sh"
+    owner: root
+    group: wheel
+    mode: 0700
+
+- name: Check for existing config
+  ansible.builtin.stat:
+    path: "{{ wireguard_basedir }}/{{ wireguard_server_conf }}"
+  register: wg_config
+
+- name: Run config script
+  ansible.builtin.command:
+    cmd: ./genWGServer.sh
+    chdir: "{{ wireguard_basedir }}"
+  when: not wg_config.stat.exists

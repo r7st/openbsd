@@ -1,0 +1,39 @@
+- name: Create wireguard base dirs
+  ansible.builtin.file:
+    path: "{{ wireguard_basedir }}/{{ item }}"
+    state: directory
+    owner: root
+    group: wheel
+    mode: 0700
+  loop:
+    - ""
+    - server
+    - client
+
+- name: Check for private key
+  ansible.builtin.stat:
+    path: "{{ wireguard_basedir }}/server/private.key"
+  register: priv_key
+
+- name: Create keys
+  block:
+    - name: Create private key
+      ansible.builtin.shell:
+        cmd: wg genkey > private.key
+        chdir: "{{ wireguard_basedir }}/server"
+
+    - name: Create public key
+      ansible.builtin.shell:
+        cmd: wg pubkey < private.key > public.key
+        chdir: "{{ wireguard_basedir }}/server"
+
+    - name: Strip go= perms on keys
+      ansible.builtin.file:
+        path: "{{ wireguard_basedir }}/server/{{ item }}"
+        owner: root
+        group: wheel
+        mode: go=
+      loop:
+        - private.key
+        - public.key
+  when: not priv_key.stat.exists

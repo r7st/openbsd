@@ -1,0 +1,72 @@
+#!/usr/local/bin/bash
+set -ueo pipefail
+
+Endpoint={{ wireguard_endpoint }}
+Clients=( 
+{% for client in wireguard_clients %}
+"{{ client }}"
+{% endfor %}
+)
+ServerConfig={{ wireguard_server_conf }}
+Subnet={{ wireguard_subnet }}
+ListenPort={{ wireguard_listen_port }}
+DNS={{ wireguard_dns }}
+ServerPrivKey=`cat server/private.key`
+ServerPubKey=`cat server/public.key`
+
+CreatePeerConfig() {
+  Client=$1
+  [ -d client/$Client ] || mkdir client/$Client
+  cat << EOF > client/$Client/${Client}.conf
+[Interface]
+Address = $2
+PrivateKey = $3
+ListenPort = $ListenPort
+DNS = $DNS
+
+[Peer]
+PublicKey = $ServerPubKey
+PreSharedKey = $4
+AllowedIPs = 0.0.0.0/0
+EndPoint = ${Endpoint}:${ListenPort}
+EOF
+}
+
+CreatePeer() {
+  Client=$1; Ind=$2
+  PrivKey=`wg genkey`
+  PubKey=`wg pubkey <<< "$PrivKey"`
+  PreSharedKey=`wg genpsk`
+
+  cat << EOF >> $ServerConfig
+[Peer] # ${Client}
+PublicKey = $PubKey
+PreSharedKey = $PreSharedKey
+AllowedIPs = ${Subnet}.${Ind}/32
+PersistentKeepAlive = 25
+
+EOF
+CreatePeerConfig $Client "${Subnet}.${Ind}/32" \
+$PrivKey $PreSharedKey
+}
+
+CreatePeers() {
+  Ind=2
+  for Client in "${Clients[@]}"; do
+    CreatePeer $Client $Ind
+    Ind=$((Ind + 1))
+  done
+}
+
+CreateServer() {
+  cat << EOF > $ServerConfig
+[Interface]
+Address = ${Subnet}.1
+PrivateKey = $ServerPrivKey
+ListenPort = $ListenPort
+
+EOF
+  CreatePeers
+}
+
+CreateServer

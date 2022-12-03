@@ -1,0 +1,19 @@
+---
+# tasks file for roles/wireguard
+- name: Install wireguard
+  community.general.openbsd_pkg:
+    name: wireguard-tools
+    state: present
+  tags: wireguard_install
+
+- name: Generate server keys
+  ansible.builtin.import_tasks: server_keys.yml
+  tags: wireguard_server_keys
+
+- name: Configure server and clients
+  ansible.builtin.import_tasks: server_client_conf.yml
+  tags: wireguard_server_client_conf
+
+- name: Enable and start wireguard
+  ansible.builtin.import_tasks: wireguard_enable.yml
+  tags: wireguard_wireguard_enable

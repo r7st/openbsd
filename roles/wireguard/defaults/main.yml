@@ -1,0 +1,11 @@
+---
+# defaults file for roles/wireguard
+wireguard_server_conf: wg0.conf
+wireguard_endpoint: "{{ ansible_default_ipv4.address }}"
+wireguard_listen_port: 51280
+wireguard_clients:
+  - client1
+  - client2
+  - client3
+wireguard_dns: "1.1.1.1"
+wireguard_subnet: "10.11.0"
