@@ -3,5 +3,7 @@
   roles:
     - role: roles/base
       tags: base_role
+    - role: roles/firewall
+      tags: firewall_role
     - role: roles/wireguard
       tags: wireguard_role

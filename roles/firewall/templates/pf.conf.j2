@@ -1,0 +1,33 @@
+# don't filter lo0
+set skip on lo0
+
+# scrub incoming packets
+match in all scrub (no-df)
+
+# activate spoofing protection for all interfaces
+block in quick from urpf-failed
+
+# default deny
+block all
+
+# block return stateless
+block return
+
+# By default, do not permit remote connections to X11
+block return in on ! lo0 proto tcp to port 6000:6010
+
+# Port build user does not need network
+block return out log proto {tcp udp} user _pbuild
+
+# allow all outbound on default iface
+pass out on egress proto { tcp udp icmp } all modulate state
+{% if firewall_allow_ssh %}
+# allow ssh
+pass in proto tcp to port ssh
+{% endif %}
+{% if firewall_allow_wireguard %}
+# allow wireguard
+pass in on {{ firewall_wireguard_interface }}
+pass in inet proto udp from any to any port {{ firewall_wireguard_port }}
+pass out on egress inet from ({{ firewall_wireguard_interface }}:network) nat-to ({{ ansible_default_ipv4.interface }}:0) 
+{% endif %}

@@ -1,0 +1,14 @@
+---
+# tasks file for roles/firewall
+- name: Add rules for pf
+  ansible.builtin.template:
+    src: templates/pf.conf.j2
+    dest: /etc/pf.conf
+    owner: root
+    group: wheel
+    mode: 0600
+
+- name: Start and enable pf
+  ansible.builtin.shell:
+    cmd: pfctl -e && pfctl -f /etc/pf.conf
+  failed_when: false
