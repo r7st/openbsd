@@ -3,4 +3,4 @@
 firewall_allow_ssh: true
 firewall_allow_wireguard: true
 firewall_wireguard_interface: wg0
-firewall_wireguard_port: 51280
+firewall_wireguard_port: 51820

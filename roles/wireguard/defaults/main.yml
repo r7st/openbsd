@@ -2,7 +2,7 @@
 # defaults file for roles/wireguard
 wireguard_server_conf: wg0.conf
 wireguard_endpoint: "{{ ansible_default_ipv4.address }}"
-wireguard_listen_port: 51280
+wireguard_listen_port: 51820
 wireguard_clients:
   - client1
   - client2
