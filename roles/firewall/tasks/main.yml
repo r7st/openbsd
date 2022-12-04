@@ -8,6 +8,20 @@
     group: wheel
     mode: 0600
 
+- name: Check for rc.conf.local
+  ansible.builtin.stat:
+    path: /etc/rc.conf.local
+  register: rc_conf_local
+
+- name: Create rc.conf.local
+  ansible.builtin.file:
+    path: /etc/rc.conf.local
+    state: touch
+    owner: root
+    group: wheel
+    mode: 0600
+  when: not rc_conf_local.stat.exists
+
 - name: Configure rc.conf.local pf
   ansible.builtin.lineinfile:
     path: /etc/rc.conf.local
