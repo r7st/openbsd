@@ -1,9 +1,12 @@
 ---
 # tasks file for roles/wireguard
-- name: Install wireguard
+- name: Install wireguard and libqrencode
   community.general.openbsd_pkg:
-    name: wireguard-tools
+    name: "{{ item }}"
     state: present
+  loop:
+    - wireguard-tools
+    - libqrencode
   tags: wireguard_install
 
 - name: Generate server keys
