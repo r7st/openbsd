@@ -8,7 +8,26 @@
     group: wheel
     mode: 0600
 
+- name: Configure rc.conf.local pf
+  ansible.builtin.lineinfile:
+    path: /etc/rc.conf.local
+    regexp: "^pf=NO"
+    line: "pf=YES"
+
+- name: Configure rc.conf.local pflogd
+  ansible.builtin.lineinfile:
+    path: /etc/rc.conf.local
+    regexp: "^pflogd.*NO$"
+    line: "pflogd_flags=YES"
+
 - name: Start and enable pf
   ansible.builtin.shell:
     cmd: pfctl -e && pfctl -f /etc/pf.conf
+  changed_when: false
+  failed_when: false
+
+- name: Start pflogd
+  ansible.builtin.command:
+    cmd: rcctl start pflogd
+  changed_when: false
   failed_when: false
