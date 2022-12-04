@@ -16,3 +16,11 @@
     cmd: ./genWGServer.sh
     chdir: "{{ wireguard_basedir }}"
   when: not wg_config.stat.exists
+
+- name: Strip go perm wg config
+  ansible.builtin.file:
+    path: "{{ wireguard_basedir }}"
+    recurse: true
+    owner: root
+    group: wheel
+    mode: go=
