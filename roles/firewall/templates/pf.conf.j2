@@ -21,6 +21,9 @@ block return out log proto {tcp udp} user _pbuild
 
 # allow all outbound on default iface
 pass out on egress proto { tcp udp icmp } all modulate state
+
+# allow ping
+pass inet proto icmp all icmp-type echoreq
 {% if firewall_allow_ssh %}
 
 # allow ssh
