@@ -1,0 +1,30 @@
+- name: Install anacron
+  community.general.openbsd_pkg:
+    name: anacron
+    state: present
+
+- name: Start/enable cron
+  ansible.builtin.shell:
+    cmd: rcctl enable cron && rcctl start cron
+  changed_when: false
+  failed_when: false
+
+- name: Configure anacrontab
+  ansible.builtin.copy:
+    src: files/anacrontab
+    dest: /etc/anacrontab
+    owner: root
+    group: wheel
+    mode: 0644
+
+- name: Create cron dirs
+  ansible.builtin.file:
+    path: "/etc/{{ item }}"
+    state: directory
+    owner: root
+    group: wheel
+    mode: 0700
+  loop:
+    - cron.daily
+    - cron.weekly
+    - cron.monthly
