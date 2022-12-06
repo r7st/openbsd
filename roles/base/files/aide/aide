@@ -1,0 +1,7 @@
+#!/bin/sh
+NVAL=10
+DBDIR=/var/db
+LOGDIR=/var/log
+CMD="--update"
+nice -n $NVAL aide $CMD
+mv $DBDIR/aide.db.new $DBDIR/aide.db

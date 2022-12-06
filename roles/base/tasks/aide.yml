@@ -5,7 +5,7 @@
 
 - name: Configure aide
   ansible.builtin.copy:
-    src: files/aide.conf
+    src: files/aide/aide.conf
     dest: /etc/aide.conf
     owner: root
     group: wheel
@@ -29,3 +29,11 @@
     changed_when: false
 
   when: not aide_db.stat.exists
+
+- name: Configure aide daily cronjob
+  ansible.builtin.copy:
+    src: files/aide/aide
+    dest: /etc/cron.daily/aide
+    owner: root
+    group: wheel
+    mode: 0700
