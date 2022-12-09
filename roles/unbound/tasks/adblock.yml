@@ -1,0 +1,32 @@
+---
+# tasks file for roles/unbound
+- name: Install git
+  community.general.openbsd_pkg:
+    name: git
+    state: present
+
+- name: Increase unbound timeout
+  ansible.builtin.lineinfile:
+    path: /etc/rc.conf.local
+    regexp: "^unbound_timeout=.*"
+    line: "unbound_timeout=240"
+
+- name: Check for dnsblockbuster
+  ansible.builtin.stat:
+    path: /var/unbound/dnsblockbuster
+  register: dnsblockbuster
+
+- name: Pull dnsblockbuster
+  ansible.builtin.git:
+    repo: https://codeberg.org/unixsheikh/dnsblockbuster.git
+    dest: /var/unbound/dnsblockbuster
+    single_branch: true
+    version: main
+  when: not dnsblockbuster.stat.exists
+
+- name: Generate adlists
+  ansible.builtin.command:
+    cmd: ./dnsblockbuster
+    chdir: /var/unbound/dnsblockbuster
+  changed_when: false
+  notify: Restart unbound

@@ -1,0 +1,9 @@
+---
+# tasks file for roles/unbound
+- name: Install and configure unbound
+  ansible.builtin.import_tasks: unbound.yml
+  tags: unbound_unbound
+
+- name: Configure adblocking
+  ansible.builtin.import_tasks: adblock.yml
+  tags: unbound_adblock

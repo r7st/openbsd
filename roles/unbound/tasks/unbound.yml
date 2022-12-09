@@ -1,0 +1,25 @@
+---
+# tasks file for roles/unbound
+- name: Install unbound
+  community.general.openbsd_pkg:
+    name: libunbound
+    state: present
+
+- name: Configure rc.local unbound
+  ansible.builtin.lineinfile:
+    path: /etc/rc.local
+    line: "rcctl -f start unbound"
+
+- name: Copy unbound conf
+  ansible.builtin.template:
+    src: templates/unbound.conf.j2
+    dest: /var/unbound/etc/unbound.conf
+    owner: root
+    group: wheel
+    mode: 0600
+
+- name: Start unbound
+  ansible.builtin.command:
+    cmd: rcctl -f start unbound
+  changed_when: false
+  failed_when: false

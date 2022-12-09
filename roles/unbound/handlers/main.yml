@@ -1,0 +1,5 @@
+---
+# handlers file for roles/unbound
+- name: Restart unbound
+  ansible.builtin.command:
+    cmd: rcctl -f restart unbound

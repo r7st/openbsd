@@ -1,0 +1,17 @@
+firewall_allow_ssh: true
+firewall_allow_wireguard: true
+firewall_wireguard_interface: wg0
+firewall_wireguard_port: 51820
+
+wireguard_basedir: "/etc/wireguard"
+wireguard_server_conf: wg0.conf
+wireguard_endpoint: "{{ ansible_default_ipv4.address }}"
+wireguard_listen_port: 51820
+wireguard_clients:
+  - client1
+  - client2
+  - client3
+wireguard_subnet: "10.11.0"
+wireguard_dns: "{{ wireguard_subnet }}.1"
+
+unbound_dns_interface: "{{ wireguard_dns }}"
