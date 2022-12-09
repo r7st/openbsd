@@ -43,7 +43,9 @@ CreatePeer() {
 PublicKey = $PubKey
 PreSharedKey = $PreSharedKey
 AllowedIPs = ${Subnet}.${Ind}/32
-PersistentKeepAlive = 25
+{% if wireguard_keepalive %}
+PersistentKeepAlive = {{ wireguard_keepalive_sec }}
+{% endif %}
 
 EOF
 CreatePeerConfig $Client "${Subnet}.${Ind}/32" \
