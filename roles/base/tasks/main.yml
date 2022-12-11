@@ -4,6 +4,16 @@
   ansible.builtin.import_tasks: update.yml
   tags: base_update
 
+- name: Configure sshd
+  ansible.builtin.copy:
+    src: files/sshd_config
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: wheel
+    mode: 0644
+  notify: Restart sshd
+  tags: base_sshd
+
 - name: Install packages
   ansible.builtin.import_tasks: packages.yml
   tags: base_packages

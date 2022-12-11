@@ -2,3 +2,8 @@
 # handlers file for roles/base
 - name: Reboot Server
   ansible.builtin.reboot:
+
+- name: Restart sshd
+  ansible.builtin.command:
+    cmd: rcctl restart sshd
+  changed_when: false
