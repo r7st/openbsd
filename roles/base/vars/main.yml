@@ -10,3 +10,4 @@ openbsd_init_package_install:
   - nmap
   - wget
   - bzip2
+  - gnuwatch

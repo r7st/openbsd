@@ -3,3 +3,11 @@
   community.general.openbsd_pkg:
     name: "{{ item }}"
   with_items: "{{ openbsd_init_package_install }}"
+
+- name: Create gnuwatch symlink
+  ansible.builtin.file:
+    src: /usr/local/bin/gnuwatch
+    dest: /usr/local/bin/watch
+    owner: root
+    group: wheel
+    state: link
