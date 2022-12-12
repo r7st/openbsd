@@ -1,3 +1,5 @@
+base_timezone: America/New_York
+
 firewall_allow_ssh: true
 firewall_allow_wireguard: true
 firewall_wireguard_interface: wg0

@@ -14,6 +14,16 @@
   notify: Restart sshd
   tags: base_sshd
 
+- name: Set timezone
+  ansible.builtin.file:
+    src: "/usr/share/zoneinfo/{{ base_timezone }}"
+    dest: /etc/localtime
+    state: link
+    force: true
+    owner: root
+    group: wheel
+  tags: base_timezone
+
 - name: Check for rc.local
   ansible.builtin.stat:
     path: /etc/rc.local
