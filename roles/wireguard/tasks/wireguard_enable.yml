@@ -7,19 +7,6 @@
     - net.inet6.ip6.forwarding=1
   notify: Reboot Server
 
-- name: Check for rc.local
-  ansible.builtin.stat:
-    path: /etc/rc.local
-  register: rc_local
-
-- name: Create rc.local
-  ansible.builtin.file:
-    path: /etc/rc.local
-    state: touch
-    owner: root
-    group: wheel
-    mode: 0644
-
 - name: Start wg0 on boot
   ansible.builtin.lineinfile:
     path: /etc/rc.local

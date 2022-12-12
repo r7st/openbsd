@@ -14,6 +14,19 @@
   notify: Restart sshd
   tags: base_sshd
 
+- name: Check for rc.local
+  ansible.builtin.stat:
+    path: /etc/rc.local
+  register: rc_local
+
+- name: Create rc.local
+  ansible.builtin.file:
+    path: /etc/rc.local
+    state: touch
+    owner: root
+    group: wheel
+    mode: 0644
+
 - name: Install packages
   ansible.builtin.import_tasks: packages.yml
   tags: base_packages

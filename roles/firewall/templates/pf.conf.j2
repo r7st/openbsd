@@ -1,3 +1,8 @@
+{% if firewall_limit_ssh_src %}
+# tables
+table <ssh_src> persist
+
+{% endif %}
 # don't filter lo0
 set skip on lo0
 
@@ -27,7 +32,11 @@ pass inet proto icmp all icmp-type echoreq
 {% if firewall_allow_ssh %}
 
 # allow ssh
+{% if firewall_limit_ssh_src %}
+pass in proto tcp from <ssh_src> to port ssh
+{% else %}
 pass in proto tcp to port ssh
+{% endif %}
 {% endif %}
 {% if firewall_allow_wireguard %}
 

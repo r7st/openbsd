@@ -2,6 +2,7 @@ firewall_allow_ssh: true
 firewall_allow_wireguard: true
 firewall_wireguard_interface: wg0
 firewall_wireguard_port: 51820
+firewall_limit_ssh_src: false
 
 wireguard_basedir: "/etc/wireguard"
 wireguard_server_conf: wg0.conf
