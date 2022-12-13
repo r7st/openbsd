@@ -22,6 +22,7 @@
     dest: /var/unbound/dnsblockbuster
     single_branch: true
     version: main
+    depth: 1
   when: not dnsblockbuster.stat.exists
 
 - name: Generate adlists
