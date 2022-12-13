@@ -18,6 +18,32 @@
     group: wheel
     mode: 0600
 
+- name: Enable logging
+  block:
+  - name: Create log dirs
+    ansible.builtin.file:
+      path: /var/unbound/var/log
+      state: directory
+      recurse: yes
+      owner: root
+      group: _unbound
+      mode: 0770
+
+  - name: Check for log file
+    ansible.builtin.stat:
+      path: /var/unbound/var/log/unbound.log
+    register: unbound_log
+
+  - name: Create log file
+    ansible.builtin.file:
+      path: /var/unbound/var/log/unbound.log
+      state: touch
+      owner: root
+      group: _unbound
+      mode: 0770
+    when: not unbound_log.stat.exists
+  when: unbound_log_queries
+
 - name: Start unbound
   ansible.builtin.command:
     cmd: rcctl -f start unbound

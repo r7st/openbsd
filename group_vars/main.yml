@@ -19,3 +19,5 @@ wireguard_subnet: "10.11.0"
 wireguard_dns: "{{ wireguard_subnet }}.1"
 
 unbound_dns_interface: "{{ wireguard_dns }}"
+unbound_log_queries: false
+unbound_log_verbosity: 1

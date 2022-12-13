@@ -50,6 +50,12 @@ server:
 
 	# include blocklist
 	include: "/var/unbound/dnsblockbuster/unbound-blocked-hosts.conf"
+{% if unbound_log_queries %}
+        log-local-actions: yes
+        logfile: /var/log/unbound.log
+        use-syslog: no
+        verbosity: {{ unbound_log_verbosity }}
+{% endif %}
 
 remote-control:
 	control-enable: yes
