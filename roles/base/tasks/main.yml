@@ -36,6 +36,7 @@
     owner: root
     group: wheel
     mode: 0644
+  when: not rc_local.stat.exists
 
 - name: Install packages
   ansible.builtin.import_tasks: packages.yml
