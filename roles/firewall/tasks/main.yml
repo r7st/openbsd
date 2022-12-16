@@ -33,6 +33,7 @@
     cmd: pfctl -t ssh_src -Tr {{ item }}
   with_items: "{{ firewall_ssh_srcs }}"
   when: firewall_limit_ssh_src
+  changed_when: false
   ignore_errors: true
 
 - name: Check for rc.conf.local
