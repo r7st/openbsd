@@ -8,6 +8,7 @@ firewall_limit_ssh_src: false
 
 wireguard_basedir: "/etc/wireguard"
 wireguard_server_conf: wg0.conf
+wireguard_wireguard_interface: "{{ firewall_wireguard_interface }}"
 wireguard_endpoint: "{{ ansible_default_ipv4.address }}"
 wireguard_listen_port: 51820
 wireguard_keepalive: false

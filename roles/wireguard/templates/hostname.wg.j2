@@ -1,0 +1,4 @@
+inet {{ wireguard_subnet }}.1 255.255.255.0 NONE
+up
+
+!/usr/local/bin/wg setconf {{ wireguard_wireguard_interface }} /etc/wireguard/{{ wireguard_server_conf }}
