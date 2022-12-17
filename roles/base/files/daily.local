@@ -1,0 +1,9 @@
+next_part "Checking filesystem changes:"
+NVAL=10
+DBDIR=/var/db
+LOGDIR=/var/log
+CMD="--update"
+nice -n $NVAL /usr/local/bin/aide $CMD | tee $LOGDIR/aide.log
+mv $DBDIR/aide.db.new $DBDIR/aide.db
+
+end_part

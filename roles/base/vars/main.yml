@@ -5,7 +5,6 @@ openbsd_init_package_install:
   - screen-4.9.0
   - sshguard
   - aide
-  - anacron
   - htop
   - nmap
   - wget
