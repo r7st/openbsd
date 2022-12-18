@@ -1,0 +1,29 @@
+# Connect with `sic -h 127.0.0.1 -n <user> -k <password>`
+- hosts: all
+  tasks:
+  - name: Install sic
+    community.general.openbsd_pkg:
+      name: sic
+      state: present
+  - name: Configure relayd
+    ansible.builtin.copy:
+      dest: /etc/relayd.conf
+      content: |
+        table <libera> { irc.libera.chat }
+        relay "libera" {
+          listen on 127.0.0.1 port 6667
+          forward with tls to <libera> port 6697
+        }
+      owner: root
+      group: wheel
+      mode: 0644
+    notify: Restart relayd
+  - name: Enable relayd
+    ansible.builtin.command:
+      cmd: rcctl enable relayd
+    changed_when: false
+    failed_when: false
+  handlers:
+    - name: Restart relayd
+      ansible.builtin.command:
+        cmd: rcctl restart relayd
