@@ -1,10 +1,13 @@
-# Connect with `sic -h 127.0.0.1 -n <user> -k <password>`
+# Connect with `rlwrap sic -h 127.0.0.1 -n <user> -k <password>`
 - hosts: all
   tasks:
-  - name: Install sic
+  - name: Install sic and rlwrap
     community.general.openbsd_pkg:
-      name: sic
+      name: "{{ item }}"
       state: present
+    loop:
+      - sic
+      - rlwrap
   - name: Configure relayd
     ansible.builtin.copy:
       dest: /etc/relayd.conf
