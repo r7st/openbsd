@@ -43,6 +43,8 @@ pass in proto tcp to port ssh
 # allow wireguard
 pass in on {{ firewall_wireguard_interface }}
 pass in inet proto udp from any to any port {{ firewall_wireguard_port }}
+{% if firewall_local_dns %}
 pass in on {{ firewall_wireguard_interface }} inet proto udp to port 53 rdr-to 127.0.0.1
+{% endif %}
 pass out on egress inet from ({{ firewall_wireguard_interface }}:network) nat-to ({{ ansible_default_ipv4.interface }}:0) 
 {% endif %}

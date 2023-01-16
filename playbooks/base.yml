@@ -1,3 +1,11 @@
 - hosts: all
+  become: true
+  vars_files:
+    - ../group_vars/main.yml
   roles:
-    - roles/base
+    - role: roles/base
+      tags: base_role
+    - role: roles/firewall
+      vars:
+        - firewall_allow_wireguard: false
+      tags: firewall_role
