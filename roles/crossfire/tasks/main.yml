@@ -1,0 +1,23 @@
+---
+- name: Install build deps
+  community.general.openbsd_pkg:
+    name: "{{ item }}"
+  with_items: "{{ crossfire_build_deps }}"
+  tags: crossfire_install_build_deps
+
+- name: Prepare build env
+  ansible.builtin.import_tasks: build_prep.yml
+  tags: crossfire_build_prep
+
+- name: Build crossfire
+  ansible.builtin.import_tasks: build.yml
+  tags: crossfire_build
+
+- name: Clean up perms
+  ansible.builtin.file:
+    path: /usr/games/crossfire
+    recurse: true
+    owner: root
+    group: wheel
+    mode: o=
+  tags: crossfire_perms

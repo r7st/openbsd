@@ -48,3 +48,8 @@ pass in on {{ firewall_wireguard_interface }} inet proto udp to port 53 rdr-to 1
 {% endif %}
 pass out on egress inet from ({{ firewall_wireguard_interface }}:network) nat-to ({{ ansible_default_ipv4.interface }}:0) 
 {% endif %}
+{% if firewall_crossfire_server %}
+
+# allow inbound for crossfire
+pass in proto tcp to port 13327
+{% endif %}

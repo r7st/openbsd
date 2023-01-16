@@ -1,0 +1,28 @@
+- name: Copy patch file
+  ansible.builtin.copy:
+    src: files/crossfire.patch
+    dest: /usr/games/crossfire/trunk/crossfire-crossfire-server/crossfire.patch
+    owner: root
+    group: wheel
+    mode: 0600
+
+- name: Apply patch file
+  ansible.builtin.shell:
+    cmd: patch < crossfire.patch
+    chdir: /usr/games/crossfire/trunk/crossfire-crossfire-server
+  changed_when: false
+
+- name: Build and install crossfire
+  ansible.builtin.shell:
+    cmd: AUTOMAKE_VERSION=1.16 AUTOCONF_VERSION=2.69 sh autogen.sh && gmake && gmake install
+    chdir: /usr/games/crossfire/trunk/crossfire-crossfire-server
+  changed_when: false
+
+- name: Create symlink for binary
+  ansible.builtin.file:
+    src: /usr/games/crossfire/bin/crossfire-server
+    dest: /usr/local/bin/crossfire-server
+    state: link
+    owner: root
+    group: wheel
+    mode: 0755

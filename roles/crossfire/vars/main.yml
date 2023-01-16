@@ -1,0 +1,8 @@
+---
+crossfire_build_deps:
+  - autogen
+  - automake-1.16.5
+  - gmake
+  - git
+  - libtool
+  - g++-11.2.0p3

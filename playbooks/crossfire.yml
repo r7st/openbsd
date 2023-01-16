@@ -1,0 +1,14 @@
+- hosts: all
+  become: true
+  vars_files:
+    - ../group_vars/main.yml
+  roles:
+    - role: roles/base
+      tags: base_role
+    - role: roles/firewall
+      vars:
+        - firewall_allow_wireguard: false
+        - firewall_crossfire_server: true
+      tags: firewall_role
+    - role: roles/crossfire
+      tags: crossfire_role

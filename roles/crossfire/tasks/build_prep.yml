@@ -1,0 +1,45 @@
+- name: Create dir structure
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    recurse: true
+    owner: root
+    group: wheel
+    mode: 0750 
+  loop:
+    - /usr/games/crossfire/trunk
+    - /usr/games/crossfire/share/crossfire
+
+- name: Pull crossfire sources
+  ansible.builtin.git:
+    repo: "https://git.code.sf.net/p/crossfire/crossfire-{{ item }}"
+    dest: "/usr/games/crossfire/trunk/crossfire-crossfire-{{ item }}"
+    single_branch: true
+    update: true
+    force: true
+    depth: 1
+  loop:
+    - server
+    - arch
+    - maps 
+
+- name: Create maps and arch symlinks
+  ansible.builtin.file:
+    src: "/usr/games/crossfire/trunk/crossfire-crossfire-{{ item }}"
+    dest: "/usr/games/crossfire/trunk/crossfire-crossfire-server/lib/{{ item }}"
+    state: link
+    owner: root
+    group: wheel
+    mode: 0755
+  loop:
+    - maps
+    - arch
+
+- name: Create runtime maps symlink
+  ansible.builtin.file:
+    src: /usr/games/crossfire/trunk/crossfire-crossfire-maps
+    dest: /usr/games/crossfire/share/crossfire/maps
+    state: link
+    owner: root
+    group: wheel
+    mode: 0755

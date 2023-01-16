@@ -6,6 +6,7 @@ firewall_wireguard_interface: wg0
 firewall_wireguard_port: 51820
 firewall_limit_ssh_src: false
 firewall_local_dns: true
+firewall_crossfire_server: false
 
 wireguard_basedir: "/etc/wireguard"
 wireguard_server_conf: wg0.conf

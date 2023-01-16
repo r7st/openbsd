@@ -1,0 +1,35 @@
+diff -rua server.orig/races.cpp server/races.cpp
+--- server.orig/races.cpp    Sun Jan 15 09:02:11 2023
++++ server/races.cpp    Sun Jan 15 09:01:29 2023
+@@ -1,7 +1,9 @@
+ #include "global.h"
+ #include "compat.h"
+ #include "string.h"
++#if not defined(__OpenBSD__)
+ #include "malloc.h"
++#endif
+
+ #include <string>
+ #include <map>
+diff -rua server.orig/server.cpp server/server.cpp
+--- server.orig/server.cpp    Sun Jan 15 09:02:11 2023
++++ server/server.cpp    Sun Jan 15 09:01:29 2023
+@@ -77,6 +77,8 @@
+     if (settings.crypt_mode == 0) {
+         return str;
+     }
++#elif (defined(__OpenBSD__))
++    return str;
+ #endif
+     char s[3];
+ 
+@@ -1587,7 +1589,9 @@
+         fprintf(stderr,
+                 "Running crossfire-server as root is a bad idea; aborting!\n"
+                 "Please run it again as a normal, unprivileged user.\n");
++#ifndef __OpenBSD__
+         exit(EXIT_FAILURE);
++#endif
+     }
+ #endif
+
