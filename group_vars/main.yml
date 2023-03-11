@@ -24,3 +24,9 @@ wireguard_dns: "{{ wireguard_subnet }}.1"
 unbound_dns_interface: "{{ wireguard_dns }}"
 unbound_log_queries: false
 unbound_log_verbosity: 1
+unbound_ad_lists:
+- https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/extra.txt
+- https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt
+- https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/update.txt
+- https://gitlab.com/quidsup/notrack-blocklists/raw/master/notrack-blocklist.txt
+- https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts

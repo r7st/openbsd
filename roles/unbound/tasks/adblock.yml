@@ -25,9 +25,16 @@
     depth: 1
   when: not dnsblockbuster.stat.exists
 
+- name: Update custom adlists
+  ansible.builtin.template:
+    src: templates/online-hosts-files.txt.j2
+    dest: /var/unbound/dnsblockbuster/online-hosts-files.txt
+    owner: root
+    group: wheel
+    mode: 0644
+
 - name: Generate adlists
   ansible.builtin.command:
     cmd: ./dnsblockbuster
     chdir: /var/unbound/dnsblockbuster
-  changed_when: false
   notify: Restart unbound
