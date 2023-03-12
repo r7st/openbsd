@@ -30,3 +30,7 @@ unbound_ad_lists:
 - https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/update.txt
 - https://gitlab.com/quidsup/notrack-blocklists/raw/master/notrack-blocklist.txt
 - https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts
+unbound_blocklist: false
+unbound_passlist: false
+unbound_blocklist_loc: "../../custom/blocklist.txt"
+unbound_passlist_loc: "../../custom/passlist.txt"

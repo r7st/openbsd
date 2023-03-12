@@ -33,6 +33,36 @@
     group: wheel
     mode: 0644
 
+- name: Add custom blocklist
+  block:
+  - name: Assert blocklist is defined
+    ansible.builtin.assert:
+      that:
+        - unbound_blocklist_loc is defined
+  - name: Copy blocklist file
+    ansible.builtin.copy:
+      src: "{{ unbound_blocklist_loc }}"
+      dest: /var/unbound/dnsblockbuster/blocklist.txt
+      owner: root
+      group: wheel
+      mode: 0644
+  when: unbound_blocklist
+
+- name: Add custom passlist
+  block:
+  - name: Assert passlist is defined
+    ansible.builtin.assert:
+      that:
+        - unbound_passlist_loc is defined
+  - name: Copy passlist file
+    ansible.builtin.copy:
+      src: "{{ unbound_passlist_loc }}"
+      dest: /var/unbound/dnsblockbuster/passlist.txt
+      owner: root
+      group: wheel
+      mode: 0644
+  when: unbound_passlist
+
 - name: Generate adlists
   ansible.builtin.command:
     cmd: ./dnsblockbuster
