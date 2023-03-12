@@ -38,4 +38,6 @@
           - https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts
         unbound_passlist: true
         unbound_blocklist: true
+        unbound_blocklist_loc: "../../custom/blocklist.txt"
+        unbound_passlist_loc: "../../custom/passlist.txt"
       tags: unbound_role
