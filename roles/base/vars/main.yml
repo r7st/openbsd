@@ -8,3 +8,4 @@ openbsd_init_package_install:
   - htop
   - nmap
   - gnuwatch
+  - rsync-3.2.5pl0
