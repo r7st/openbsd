@@ -1,0 +1,12 @@
+- hosts: all
+  tasks:
+  - name: Patch kernel
+    community.general.syspatch:
+    notify: Reboot Server
+  - name: Update packages
+    community.general.openbsd_pkg:
+      name: '*'
+      state: latest
+  handlers:
+    - name: Reboot Server
+      ansible.builtin.reboot:
