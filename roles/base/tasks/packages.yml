@@ -8,6 +8,16 @@
   ansible.builtin.file:
     src: /usr/local/bin/gnuwatch
     dest: /usr/local/bin/watch
+    state: link
     owner: root
     group: wheel
+    mode: 0755
+
+- name: Create updatedb symlink
+  ansible.builtin.file:
+    src: /usr/libexec/locate.updatedb
+    dest: /usr/local/bin/updatedb
     state: link
+    owner: root
+    group: wheel
+    mode: 0755
