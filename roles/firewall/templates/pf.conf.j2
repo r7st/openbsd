@@ -38,6 +38,11 @@ pass in proto tcp from <ssh_src> to port ssh
 pass in proto tcp to port ssh
 {% endif %}
 {% endif %}
+{% if unbound_listen_vio0 %}
+
+# allow inbound dns
+pass in on {{ ansible_default_ipv4.interface }} proto udp from any to port 53
+{% endif %}
 {% if firewall_allow_wireguard %}
 
 # allow wireguard

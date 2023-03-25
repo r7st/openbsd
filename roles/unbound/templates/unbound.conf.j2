@@ -1,10 +1,12 @@
 server:
-	interface: 127.0.0.1
+	interface: {{ unbound_interface_ip }}
 
 	access-control: 0.0.0.0/0 refuse
 	access-control: 127.0.0.0/8 refuse
 	access-control: ::0/0 refuse
-	access-control: {{ wireguard_subnet }}.0/24 allow
+{% for allowed_subnet in unbound_allowed_subnets %}
+        access-control: {{ allowed_subnet }} allow
+{% endfor %}
 
 	hide-identity: yes
 	hide-version: yes
@@ -12,6 +14,9 @@ server:
 	aggressive-nsec: yes
 
 	include: "/var/unbound/dnsblockbuster/unbound-blocked-hosts.conf"
+{% if unbound_local_dns %}
+        include: "/var/unbound/etc/home_net.conf"
+{% endif %}
 {% if unbound_log_queries %}
         log-local-actions: yes
         logfile: /var/log/unbound.log

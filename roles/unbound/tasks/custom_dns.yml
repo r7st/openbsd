@@ -1,0 +1,14 @@
+---
+- name: Assert custom dns file exists
+  ansible.builtin.assert:
+    that:
+      - unbound_local_dns_file is defined
+
+- name: Copy custom dns file
+  ansible.builtin.copy:
+    src: "{{ unbound_local_dns_file }}"
+    dest: /var/unbound/etc/home_net.conf
+    owner: root
+    group: wheel
+    mode: 0600
+  notify: Restart unbound

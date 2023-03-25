@@ -21,7 +21,9 @@ wireguard_clients:
 wireguard_subnet: "10.11.0"
 wireguard_dns: "{{ wireguard_subnet }}.1"
 
-unbound_dns_interface: "{{ wireguard_dns }}"
+unbound_interface_ip: 127.0.0.1
+unbound_allowed_subnets:
+  - "{{ wireguard_subnet }}.0/24"
 unbound_log_queries: false
 unbound_log_verbosity: 1
 unbound_ad_lists:
@@ -34,3 +36,6 @@ unbound_blocklist: false
 unbound_passlist: false
 unbound_blocklist_loc: "../../custom/blocklist.txt"
 unbound_passlist_loc: "../../custom/passlist.txt"
+unbound_listen_vio0: false
+unbound_local_dns: false
+unbound_local_dns_file: "../../custom/home_net.conf"

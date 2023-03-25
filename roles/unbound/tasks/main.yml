@@ -4,6 +4,11 @@
   ansible.builtin.import_tasks: unbound.yml
   tags: unbound_unbound
 
+- name: Add custom DNS
+  ansible.builtin.import_tasks: custom_dns.yml
+  when: unbound_local_dns
+  tags: unbound_custom_dns
+
 - name: Configure adblocking
   ansible.builtin.import_tasks: adblock.yml
   tags: unbound_adblock
