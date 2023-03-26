@@ -1,0 +1,44 @@
+---
+- name: Check for existing snmpd config
+  ansible.builtin.stat:
+    path: /etc/snmpd.conf
+  register: snmpd_conf
+
+- name: Configure snmpd
+  block:
+  - name: Ensure snmpd user is set
+    ansible.builtin.assert:
+      that:
+        - base_snmpd_user is defined
+
+  - name: Generate authkey
+    ansible.builtin.set_fact:
+      snmpd_authkey: "{{ lookup('ansible.builtin.password',
+        '/dev/null', chars=['ascii_letters', 'digits']) }}"
+    no_log: true
+
+  - name: Generate enckey
+    ansible.builtin.set_fact:
+      snmpd_enckey: "{{ lookup('ansible.builtin.password',
+        '/dev/null', chars=['ascii_letters', 'digits']) }}"
+    no_log: true
+
+  - name: Create snmpd.conf
+    ansible.builtin.template:
+      src: templates/snmpd.conf.j2
+      dest: /etc/snmpd.conf
+      owner: root
+      group: wheel
+      mode: 0600
+  when: not snmpd_conf.stat.exists
+  notify: Restart snmpd
+
+- name: Enable snmpd
+  ansible.builtin.command:
+    cmd: rcctl enable snmpd
+  changed_when: false
+
+- name: Start snmpd
+  ansible.builtin.command:
+    cmd: rcctl start snmpd
+  changed_when: false

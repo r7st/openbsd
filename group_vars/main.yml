@@ -1,6 +1,9 @@
 base_timezone: America/New_York
+base_snmpd: false
+base_snmpd_user: checkmk
 
 firewall_allow_ssh: true
+firewall_allow_snmpd: true
 firewall_allow_wireguard: true
 firewall_wireguard_interface: wg0
 firewall_wireguard_port: 51820

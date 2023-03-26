@@ -53,3 +53,8 @@
 - name: Configure aide
   ansible.builtin.import_tasks: aide.yml
   tags: base_aide
+
+- name: Configure snmpd
+  ansible.builtin.import_tasks: snmpd.yml
+  when: base_snmpd
+  tags: base_snmpd

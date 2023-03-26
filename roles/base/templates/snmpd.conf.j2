@@ -1,0 +1,3 @@
+seclevel enc
+listen on {{ ansible_default_ipv4.address }} snmpv3
+user "{{ base_snmpd_user }}" auth hmac-sha1 authkey "{{ snmpd_authkey }}" enc aes enckey "{{ snmpd_enckey }}"
