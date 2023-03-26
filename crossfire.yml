@@ -1,7 +1,4 @@
-- hosts: all
-  become: true
-  vars_files:
-    - ../group_vars/main.yml
+- hosts: crossfire
   roles:
     - role: roles/base
       tags: base_role

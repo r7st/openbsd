@@ -1,2 +1,5 @@
 ---
 # defaults file for roles/base
+base_timezone: America/New_York
+base_snmpd: false
+base_snmpd_user: checkmk

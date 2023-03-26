@@ -1,0 +1,17 @@
+- hosts: vpn
+  roles:
+    - role: base
+      tags: base_role
+    - role: firewall
+      tags: firewall_role
+    - role: wireguard
+      vars:
+        wireguard_clients:
+          - phone 
+          - laptop
+          - client1
+          - client2
+          - client3
+      tags: wireguard_role
+    - role: unbound
+      tags: unbound_role

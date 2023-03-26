@@ -1,13 +1,10 @@
-- hosts: all
-  become: true
-  vars_files:
-    - ../group_vars/main.yml
+- hosts: wireguard
   roles:
     - role: roles/base
       tags: base_role
     - role: roles/firewall
+      vars:
+        - firewall_local_dns: false
       tags: firewall_role
     - role: roles/wireguard
       tags: wireguard_role
-    - role: roles/unbound
-      tags: unbound_role
