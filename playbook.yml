@@ -2,3 +2,4 @@
 - import_playbook: wireguard.yml
 - import_playbook: unbound.yml
 - import_playbook: crossfire.yml
+- import_playbook: base.yml

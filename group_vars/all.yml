@@ -12,3 +12,4 @@ unbound_ad_lists:
   - https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts
 unbound_passlist: true
 unbound_blocklist: true
+unbound_listen_vio0: false
