@@ -1,0 +1,41 @@
+# This is intended for OpenBSD 7.2 -> 7.3
+- hosts: all
+  tasks:
+  - name: Sysupgrade
+    community.general.sysupgrade:
+      fetch_only: true
+    register: did_sysupgrade
+    notify: Reboot Server
+  - name: Complete sysupgrade
+    block:
+    - name: Force reboot if required
+      meta: flush_handlers
+    - name: Force update python3
+      ansible.builtin.shell:
+        cmd: ssh root@${ANSIBLE_HOST} 'pkg_add -Ur python3'
+      environment:
+        ANSIBLE_HOST: "{{ inventory_hostname }}"
+      delegate_to: localhost
+    - name: Use new interpreter
+      ansible.builtin.set_fact:
+        ansible_python_interpreter: /usr/local/bin/python3.10
+    - name: Gather new facts
+      ansible.builtin.setup:
+    notify: Reboot Server
+  - name: Patch kernel
+    community.general.syspatch:
+    ignore_errors: true
+    notify: Reboot Server
+  - name: Update packages
+    community.general.openbsd_pkg:
+      name: '*'
+      state: latest
+  - name: Autoremove unneeded packages
+    ansible.builtin.command:
+      cmd: pkg_delete -a
+  handlers:
+  - name: Reboot Server
+    ansible.builtin.reboot:
+    retries: 20
+    delay: 30
+    ignore_errors: true
