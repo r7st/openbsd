@@ -4,6 +4,7 @@
   - name: Sysupgrade
     community.general.sysupgrade:
       fetch_only: true
+    ignore_errors: true
     register: did_sysupgrade
     notify: Reboot Server
   - name: Complete sysupgrade
@@ -21,6 +22,7 @@
         ansible_python_interpreter: /usr/local/bin/python3.10
     - name: Gather new facts
       ansible.builtin.setup:
+    when: did_sysupgrade.changed
     notify: Reboot Server
   - name: Patch kernel
     community.general.syspatch:
@@ -33,6 +35,7 @@
   - name: Autoremove unneeded packages
     ansible.builtin.command:
       cmd: pkg_delete -a
+    changed_when: false
   handlers:
   - name: Reboot Server
     ansible.builtin.reboot:
