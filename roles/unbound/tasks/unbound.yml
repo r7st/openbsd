@@ -16,18 +16,19 @@
     dest: /var/unbound/etc/unbound.conf
     owner: root
     group: wheel
-    mode: 0600
+    mode: "0600"
 
 - name: Enable logging
+  when: unbound_log_queries
   block:
   - name: Create log dirs
     ansible.builtin.file:
       path: /var/unbound/var/log
       state: directory
-      recurse: yes
+      recurse: true
       owner: root
       group: _unbound
-      mode: 0770
+      mode: "0770"
 
   - name: Check for log file
     ansible.builtin.stat:
@@ -40,9 +41,8 @@
       state: touch
       owner: root
       group: _unbound
-      mode: 0770
+      mode: "0770"
     when: not unbound_log.stat.exists
-  when: unbound_log_queries
 
 - name: Start unbound
   ansible.builtin.command:

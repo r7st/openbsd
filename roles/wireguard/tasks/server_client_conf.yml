@@ -4,7 +4,7 @@
     dest: "{{ wireguard_basedir }}/genWGServer.sh"
     owner: root
     group: wheel
-    mode: 0700
+    mode: "0700"
 
 - name: Check for existing config
   ansible.builtin.stat:
@@ -15,6 +15,7 @@
   ansible.builtin.command:
     cmd: ./genWGServer.sh
     chdir: "{{ wireguard_basedir }}"
+  changed_when: true
   when: not wg_config.stat.exists
 
 - name: Strip go perm wg config

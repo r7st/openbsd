@@ -31,9 +31,10 @@
     dest: /var/unbound/dnsblockbuster/online-hosts-files.txt
     owner: root
     group: wheel
-    mode: 0644
+    mode: "0644"
 
 - name: Add custom blocklist
+  when: unbound_blocklist
   block:
   - name: Assert blocklist is defined
     ansible.builtin.assert:
@@ -45,10 +46,10 @@
       dest: /var/unbound/dnsblockbuster/blocklist.txt
       owner: root
       group: wheel
-      mode: 0644
-  when: unbound_blocklist
+      mode: "0644"
 
 - name: Add custom passlist
+  when: unbound_passlist
   block:
   - name: Assert passlist is defined
     ansible.builtin.assert:
@@ -60,11 +61,11 @@
       dest: /var/unbound/dnsblockbuster/passlist.txt
       owner: root
       group: wheel
-      mode: 0644
-  when: unbound_passlist
+      mode: "0644"
 
 - name: Generate adlists
   ansible.builtin.command:
     cmd: ./dnsblockbuster
     chdir: /var/unbound/dnsblockbuster
+  changed_when: true
   notify: Restart unbound

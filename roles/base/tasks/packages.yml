@@ -11,7 +11,7 @@
     state: link
     owner: root
     group: wheel
-    mode: 0755
+    mode: "0755"
 
 - name: Create updatedb symlink
   ansible.builtin.file:
@@ -20,4 +20,4 @@
     state: link
     owner: root
     group: wheel
-    mode: 0755
+    mode: "0755"

@@ -5,6 +5,8 @@
   register: snmpd_conf
 
 - name: Configure snmpd
+  when: not snmpd_conf.stat.exists
+  notify: Restart snmpd
   block:
   - name: Ensure snmpd user is set
     ansible.builtin.assert:
@@ -29,9 +31,7 @@
       dest: /etc/snmpd.conf
       owner: root
       group: wheel
-      mode: 0600
-  when: not snmpd_conf.stat.exists
-  notify: Restart snmpd
+      mode: "0600"
 
 - name: Enable snmpd
   ansible.builtin.command:

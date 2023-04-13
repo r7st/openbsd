@@ -9,7 +9,7 @@
     dest: /etc/aide.conf
     owner: root
     group: wheel
-    mode: 0600
+    mode: "0600"
 
 - name: Check for existing aide db
   ansible.builtin.stat:
@@ -17,6 +17,7 @@
   register: aide_db
 
 - name: Init aide
+  when: not aide_db.stat.exists
   block:
   - name: Initialize aide db
     ansible.builtin.command:
@@ -27,5 +28,3 @@
     ansible.builtin.command:
       cmd: mv /var/db/aide.db.new /var/db/aide.db
     changed_when: false
-
-  when: not aide_db.stat.exists

@@ -24,7 +24,7 @@
     dest: "{{ item }}"
     owner: root
     group: wheel
-    mode: 0644
+    mode: "0644"
   loop:
     - /root/.profile
     - /etc/skel/.profile
@@ -35,7 +35,7 @@
     dest: /etc/bashrc
     owner: root
     group: wheel
-    mode: 0644
+    mode: "0644"
 
 - name: Add skel/root .bashrc
   ansible.builtin.copy:
@@ -43,7 +43,7 @@
     dest: "{{ item }}"
     owner: root
     group: wheel
-    mode: 0644
+    mode: "0644"
   loop:
     - /root/.bashrc
     - /etc/skel/.bashrc

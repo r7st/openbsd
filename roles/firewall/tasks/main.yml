@@ -1,6 +1,7 @@
 ---
 # tasks file for roles/firewall
 - name: Limit ssh src addrs
+  when: firewall_limit_ssh_src
   block:
   - name: Check ssh ssh_allow table
     ansible.builtin.assert:
@@ -18,7 +19,6 @@
       path: /var/cron/tabs/root
       line: "*/5 * * * * pfctl -t ssh_src -Tr {{ item }} > /dev/null 2>&1"
     with_items: "{{ firewall_ssh_srcs }}"
-  when: firewall_limit_ssh_src
 
 - name: Add rules for pf
   ansible.builtin.template:
@@ -26,7 +26,7 @@
     dest: /etc/pf.conf
     owner: root
     group: wheel
-    mode: 0600
+    mode: "0600"
 
 - name: Update ssh src table
   ansible.builtin.command:
@@ -34,7 +34,6 @@
   with_items: "{{ firewall_ssh_srcs }}"
   when: firewall_limit_ssh_src
   changed_when: false
-  ignore_errors: true
 
 - name: Check for rc.conf.local
   ansible.builtin.stat:
@@ -47,7 +46,7 @@
     state: touch
     owner: root
     group: wheel
-    mode: 0600
+    mode: "0600"
   when: not rc_conf_local.stat.exists
 
 - name: Configure rc.conf.local pf
