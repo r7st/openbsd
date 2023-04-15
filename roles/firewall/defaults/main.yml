@@ -1,7 +1,7 @@
 ---
 # defaults file for roles/firewall
 firewall_allow_ssh: true
-firewall_allow_snmpd: true
+firewall_allow_snmpd: false
 firewall_allow_wireguard: true
 firewall_wireguard_interface: wg0
 firewall_wireguard_port: 51820
